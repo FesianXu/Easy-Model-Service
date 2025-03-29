@@ -1,0 +1,5 @@
+torch
+fastapi
+pydantic
+pydantic_settings==2.8.1
+transformers==4.46.1
