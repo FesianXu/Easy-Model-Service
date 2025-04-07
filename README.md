@@ -14,24 +14,23 @@ graph TD
 
     subgraph Proxy服务器
     	LB[负载均衡器]
-    	C -->|1. HTTP请求| LB
+    	C -->|1、 HTTP请求| LB
         LB -.维护可用计算后端的列表.-> HC[健康检查器]
         HC -.每5秒触发后端健康检测.-> WT[(可用的后端池)]
         Q[(环形队列\nMAX_QUEUE_SIZE=1000)]
-        LB -->|2. 队列缓冲请求| Q
-        Q -->|3. 轮询策略分发请求| WT
-        WT -->|4. 转发请求| A1
-        WT -->|4. 转发请求| A2
-        WT -->|4. 转发请求| A32
+        LB --> |2、 队列缓冲请求| Q
+        Q --> |3、 轮询策略分发请求| WT
+        
     end
 
     subgraph Agent集群
+        WT --> |4、 转发请求| A1
+        WT --> |4、 转发请求| A2
+        WT --> |4、 转发请求| A32
         A1[[Agent 10000]] -->|加载| M1["大语言模型 (model_path)"]
         A2[[Agent 10001]] -->|加载| M2["大语言模型 (model_path)"]
         A32[[Agent 10031]] -->|加载| M32["大语言模型 (model_path)"]
     end
-
-    
 ```
 
 
